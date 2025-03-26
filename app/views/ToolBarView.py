@@ -4,12 +4,12 @@ from PySide6.QtCore import QSize
 
 
 class ToolBarView(QToolBar):
-    def __init__(self, MainWindow):
-        super().__init__("Tools", MainWindow)
-        self.setIconSize(QSize(48, 48))
-        self.setupUI()
+    def __init__(self, ParentWindow):
+        super().__init__(u"Tools", ParentWindow)
 
     def setupUI(self):
+        self.setIconSize(QSize(48, 48))
+
         self.actionCreateTable = QAction(QIcon("app\\icons\\table.png"), "Create table", self)
         self.addAction(self.actionCreateTable)
 
