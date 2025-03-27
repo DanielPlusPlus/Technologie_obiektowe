@@ -35,6 +35,11 @@ class MainWindow(QMainWindow):
         self.MainWindowView.addCentralWidget(self.drawingAreaView)
 
         # controller
+        self.ToolBarController.setTableModel(self.TableModel)
         self.DrawingAreaController.setView(self.drawingAreaView)
         self.DrawingAreaController.setModel(self.TableModel)
         self.DrawingAreaController.setFriendlyController(self.MainWindowController)
+
+
+        # views
+        self.drawingAreaView.setTableModel(self.TableModel)

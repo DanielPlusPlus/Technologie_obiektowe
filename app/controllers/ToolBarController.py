@@ -1,5 +1,7 @@
+from PySide6.QtCore import QPoint
 class ToolBarController:
     def __init__(self, ToolBarView):
+        self.TableModel = None
         ToolBarView.actionCreateTable.triggered.connect(self.selectCreateTableTool)
         ToolBarView.actionCreate_1_1_Rel.triggered.connect(self.selectCreate_1_1_Rel)
         ToolBarView.actionCreate_1_n_Rel.triggered.connect(self.selectCreate_1_n_Rel)
@@ -7,8 +9,12 @@ class ToolBarController:
         ToolBarView.actionSaveDiagram.triggered.connect(self.selectSaveDiagram)
         ToolBarView.actionGenerateSQL.triggered.connect(self.selectGenerateSQL)
 
+    def setTableModel(self, TableModel):
+        self.TableModel = TableModel
+        self.position = QPoint(200, 200)
+
     def selectCreateTableTool(self):
-        print("Selected create table tool")
+        self.TableModel.addTable(self.position)
 
     def selectCreate_1_1_Rel(self):
         print("Selected create 1:1 relationship")
