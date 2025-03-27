@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QMainWindow
 
 from app.views.MainWindowView import MainWindowView
 from app.views.ToolBarView import ToolBarView
+from app.views.ScrollAreaView import ScrollAreaView
 from app.views.DrawingAreaView import DrawingAreaView
 from app.controllers.MainWindowController import MainWindowController
 from app.controllers.ToolBarController import ToolBarController
@@ -30,16 +31,17 @@ class MainWindow(QMainWindow):
         self.TableModel = TableModel()
 
         # views
-        self.drawingAreaView = DrawingAreaView(self.DrawingAreaController)
-        self.drawingAreaView.setupUI()
-        self.MainWindowView.addCentralWidget(self.drawingAreaView)
+        self.ScrollAreaView = ScrollAreaView()
+        self.DrawingAreaView = DrawingAreaView(self.DrawingAreaController)
+        self.DrawingAreaView.setupUI()
+        self.MainWindowView.addCentralWidget(self.DrawingAreaView)
 
         # controller
         self.ToolBarController.setTableModel(self.TableModel)
-        self.DrawingAreaController.setView(self.drawingAreaView)
+        self.DrawingAreaController.setView(self.DrawingAreaView)
         self.DrawingAreaController.setModel(self.TableModel)
         self.DrawingAreaController.setFriendlyController(self.MainWindowController)
 
 
         # views
-        self.drawingAreaView.setTableModel(self.TableModel)
+        self.DrawingAreaView.setTableModel(self.TableModel)
