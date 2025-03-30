@@ -39,9 +39,7 @@ class TableModel:
         self.tableNumber = 1
 
     def addTable(self, position, width=100, rowsHeight=20, rowsNumber=5):
-        table = Table(position.x() - width // 2,
-                      position.y() - (rowsHeight * rowsNumber) // 2,
-                      width, rowsHeight * rowsNumber, rowsNumber, self.tableNumber)
+        table = Table(position.x(), position.y(), width, rowsHeight, rowsNumber, self.tableNumber)
         self.tables.append(table)
         self.tableNumber += 1
 
