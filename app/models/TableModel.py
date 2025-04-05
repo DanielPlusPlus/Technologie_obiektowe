@@ -1,4 +1,4 @@
-from PySide6.QtCore import QRect
+from PySide6.QtCore import QPoint, QRect
 
 
 class Table:
@@ -30,7 +30,8 @@ class Table:
         return self.tableNumber
 
     def contains(self, point):
-        return self.rectangle.contains(point)
+        if self.rectangle.contains(point):
+            return True
 
 
 class TableModel:
@@ -39,8 +40,8 @@ class TableModel:
         self.tableNumber = 1
 
     def addTable(self, position, width=100, rowsHeight=20, rowsNumber=5):
-        table = Table(position.x(), position.y(), width, rowsHeight, rowsNumber, self.tableNumber)
-        self.tables.append(table)
+        createdTable = Table(position.x(), position.y(), width, rowsHeight, rowsNumber, self.tableNumber)
+        self.tables.append(createdTable)
         self.tableNumber += 1
 
     def clearTables(self):
@@ -48,3 +49,12 @@ class TableModel:
 
     def getTables(self):
         return self.tables
+
+    def deleteSelectedTable(self, SelectedTable):
+        self.tables.remove(SelectedTable)
+
+    def getTableFromPosition(self, position):
+        for ObtainedTable in self.tables:
+            if ObtainedTable.contains(QPoint(position.x(), position.y())):
+                return ObtainedTable
+        return None

@@ -43,11 +43,8 @@ class MainWindow(QMainWindow):
         # controllers
         self.ToolBarController.setTableModel(self.TableModel)
         self.DrawingAreaController.setDrawingAreaView(self.DrawingAreaView)
-        self.DrawingAreaController.setTableView(self.TableView)
-        self.DrawingAreaController.setTableModel(self.TableModel)
         self.DrawingAreaController.setMainWindowController(self.MainWindowController)
-        self.DrawingAreaController.setTableModel(self.TableModel)
-        self.TableController = TableController(self.TableView)
+        self.TableController = TableController(self, self.TableView, self.TableModel)
         self.DrawingAreaController.setToolBarController(self.ToolBarController)
         self.DrawingAreaController.setTableController(self.TableController)
 
