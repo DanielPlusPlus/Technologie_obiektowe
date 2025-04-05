@@ -48,6 +48,7 @@ class MainWindow(QMainWindow):
         self.DrawingAreaController.setMainWindowController(self.MainWindowController)
         self.DrawingAreaController.setTableModel(self.TableModel)
         self.TableController = TableController(self.TableView)
+        self.DrawingAreaController.setToolBarController(self.ToolBarController)
         self.DrawingAreaController.setTableController(self.TableController)
 
         # views

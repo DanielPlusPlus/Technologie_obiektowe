@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QWidget
 class DrawingAreaView(QWidget):
     def __init__(self, DrawingAreaController):
         super().__init__()
-        self.setMinimumSize(500, 500)
+        self.setMinimumSize(3840, 2160)
         self.DrawingAreaController = DrawingAreaController
         self.TableModel = None
         self.TableController = None
@@ -22,6 +22,10 @@ class DrawingAreaView(QWidget):
 
     def mousePressEvent(self, event):
         self.DrawingAreaController.handleMousePress(event)
+        self.update()
+
+    def mouseReleaseEvent(self, event):
+        self.DrawingAreaController.handleMouseRelease(event)
         self.update()
 
     def paintEvent(self, event):

@@ -1,7 +1,5 @@
 from PySide6.QtCore import Qt, QPoint
 
-from app.models.TableModel import TableModel
-
 
 class DrawingAreaController:
     def __init__(self):
@@ -9,6 +7,7 @@ class DrawingAreaController:
         self.cursorPosition = QPoint()
         self.MainWindowController = None
         self.TableModel = None
+        self.ToolBarController = None
         self.TableController = None
         self.TableView = None
 
@@ -24,6 +23,9 @@ class DrawingAreaController:
     def setMainWindowController(self, MainWindowController):
         self.MainWindowController = MainWindowController
 
+    def setToolBarController(self, ToolBarController):
+        self.ToolBarController = ToolBarController
+
     def setTableController(self, TableController):
         self.TableController = TableController
 
@@ -33,8 +35,15 @@ class DrawingAreaController:
 
     def handleMousePress(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
-            self.TableModel = TableModel()
-            self.TableModel.addTable(self.cursorPosition)
+            if self.ToolBarController.getCreateTableToolStatus():
+                self.TableModel.addTable(self.cursorPosition)
+
+    def handleMouseRelease(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            if self.ToolBarController.getCreateTableToolStatus():
+                self.ToolBarController.unselectCreateTableTool()
 
     def handlePaintEvent(self):
+        if self.ToolBarController.getCreateTableToolStatus():
+            self.TableController.selectTempTable(self.cursorPosition)
         self.TableController.selectDrawTable()
