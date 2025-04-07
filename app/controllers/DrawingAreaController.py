@@ -1,5 +1,7 @@
 from PySide6.QtCore import Qt, QPoint
 
+from app.enums.TableContextMenuEnum import TableContextMenuEnum
+
 
 class DrawingAreaController:
     def __init__(self):
@@ -31,15 +33,20 @@ class DrawingAreaController:
                 self.TableController.addTable(self.cursorPosition)
             elif self.TableController.getTableInMotionStatus():
                 self.TableController.unselectTableInMotion(self.cursorPosition)
+            elif self.TableController.getContextMenuAtWorkStatus():
+                self.TableController.unselectContextMenuAtWork()
             else:
                 self.TableController.selectTableInMotion(self.cursorPosition)
         elif event.button() == Qt.MouseButton.RightButton:
             if self.ToolBarController.getCreateTableToolStatus():
                 pass  # miejsce na anulowanie rysowania
             else:
-                self.TableController.deleteTable(self.cursorPosition)
-        elif event.button() == Qt.MouseButton.MiddleButton:
-            self.TableController.displayTable(self.cursorPosition)
+                globalCursorPosition = self.DrawingAreaView.convertCursorPositionToGlobal(self.cursorPosition)
+                result = self.TableController.displayTableContextMenu(self.cursorPosition, globalCursorPosition)
+                if result == TableContextMenuEnum.EDIT:
+                    self.TableController.displayTable(self.cursorPosition)
+                elif result == TableContextMenuEnum.DELETE:
+                    self.TableController.deleteTable(self.cursorPosition)
 
     def handleMouseRelease(self, event):
         if event.button() == Qt.MouseButton.LeftButton:

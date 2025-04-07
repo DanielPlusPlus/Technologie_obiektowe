@@ -1,4 +1,7 @@
 from app.views.ConfirmationDialogView import ConfirmationDialogView
+from app.views.TableContextMenuView import TableContextMenuView
+from app.controllers.TableContextMenuController import TableContextMenuController
+from app.enums.TableContextMenuEnum import TableContextMenuEnum
 
 
 class TableController:
@@ -6,8 +9,12 @@ class TableController:
         self.ParentWindow = ParentWindow
         self.TableView = TableView
         self.TableModel = TableModel
+        self.TableContextMenuView = TableContextMenuView(self.ParentWindow)
+        self.TableContextMenuView.setup_UI()
+        self.TableContextMenuController = TableContextMenuController(self.TableContextMenuView)
         self.TempTable = None
         self.isTableInMotion = False
+        self.isContextMenuAtWork = False
 
     def addTable(self, cursorPosition):
         self.TableModel.addTable(cursorPosition)
@@ -47,4 +54,21 @@ class TableController:
     def getTableInMotionStatus(self):
         return self.isTableInMotion
 
+    def displayTableContextMenu(self, cursorPosition, globalCursorPosition):
+        ObtainedTable = self.TableModel.getTableFromPosition(cursorPosition)
+        if ObtainedTable is not None:
+            self.isContextMenuAtWork = True
+            self.TableContextMenuView.exec(globalCursorPosition)
+            if self.TableContextMenuController.getSelectEditTableStatus():
+                self.TableContextMenuController.unselectEditTable()
+                return TableContextMenuEnum.EDIT
+            elif self.TableContextMenuController.getSelectDeleteTableStatus():
+                self.TableContextMenuController.unselectDeleteTable()
+                return TableContextMenuEnum.DELETE
+            return TableContextMenuEnum.NONE
 
+    def unselectContextMenuAtWork(self):
+        self.isContextMenuAtWork = False
+
+    def getContextMenuAtWorkStatus(self):
+        return self.isContextMenuAtWork
